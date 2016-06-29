@@ -1,1 +1,2 @@
-# OpenCV-Tracking
+# OpenCV Tracking & Camera Calibration Projects
+This is a repository containing small projects using the [OpenCV machine vision library](http://opencv.org/) including things such as corner tracking and camera calibration with a webcam stream input. Most, if not all, of the projects may have errors, bugs, or inconsistencies here and there as they are always in development and intended **for testing purposes only**.
