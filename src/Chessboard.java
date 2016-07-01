@@ -10,17 +10,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Size;
 import org.opencv.highgui.VideoCapture;
-import org.opencv.imgproc.Imgproc;
 
 public class Chessboard {
 	static ExecutorService pool = Executors.newFixedThreadPool(1);
@@ -47,7 +44,7 @@ public class Chessboard {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(cam);
-		frame.setSize(1280, 720);
+		frame.setSize(1300, 770);
 		frame.setTitle("Chessboard");
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
@@ -67,21 +64,21 @@ public class Chessboard {
 
 		// May need to use SwingWorker for faster processing in the future
 
-		/*
-		 * 
-		 * SwingWorker<Void, Mat> worker = new SwingWorker<Void, Mat>() {
-		 * 
-		 * @Override protected Void doInBackground() throws Exception {
-		 * while(!isCancelled()) { Mat iframe = new Mat(); if
-		 * (camera.read(iframe)) { publish(iframe); } Thread.sleep(500); //
-		 * prudential time to avoid block the event queue } return null; }
-		 * 
-		 * @Override protected void process(List<Mat> chunks) { Mat lastFrame =
-		 * chuncks.get(chunks.size() - 1); Highgui.imwrite(canvas, lastFrame); }
-		 * };
-		 * 
-		 * worker.execute();
+		/* 
+		  SwingWorker<Void, Mat> worker = new SwingWorker<Void, Mat>() {
+		  
+		  @Override protected Void doInBackground() throws Exception {
+		  while(!isCancelled()) { Mat iframe = new Mat(); if
+		  (camera.read(iframe)) { publish(iframe); } Thread.sleep(500); //
+		  prudential time to avoid block the event queue } return null; }
+		  
+		  @Override protected void process(List<Mat> chunks) { Mat lastFrame =
+		  chuncks.get(chunks.size() - 1); Highgui.imwrite(canvas, lastFrame); }
+		  };
+		  
+		  worker.execute();
 		 */
+		
 		// Lambda Runnable
 		Runnable captureFrame = () -> {
 			while (true) {
