@@ -147,21 +147,6 @@ class VideoCamera extends JPanel {
 		}
 	}
 
-	public Mat turnGray(Mat img)
-
-	{
-		Mat mat1 = new Mat();
-		Imgproc.cvtColor(img, mat1, Imgproc.COLOR_RGB2GRAY);
-		return mat1;
-	}
-
-	public Mat threash(Mat img) {
-		Mat threshed = new Mat();
-		int SENSITIVITY_VALUE = 100;
-		Imgproc.threshold(img, threshed, SENSITIVITY_VALUE, 255, Imgproc.THRESH_BINARY);
-		return threshed;
-	}
-
 }
 
 class ImageProcessor implements Callable<Mat> {
