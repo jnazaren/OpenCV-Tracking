@@ -1,6 +1,9 @@
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.opencv.highgui.VideoCapture;
@@ -86,7 +89,7 @@ class NewVideoCamera extends JPanel {
 		super.paintComponent(g);
 		Mat frame = new Mat();
 		camera.read(frame);
-		Size patternSize = new Size(7, 7);
+		Size patternSize = new Size(7, 8);
 
 		if (!frame.empty()) {
 
@@ -96,8 +99,31 @@ class NewVideoCamera extends JPanel {
 			boolean cornersFound = Calib3d.findChessboardCorners(frame, patternSize, corners, 4);
 			Calib3d.drawChessboardCorners(frame, patternSize, corners, cornersFound);
 			if (cornersFound) {
-				System.out.println(corners.dump());
-				System.out.println("-------------------------");
+//				System.out.println(corners.dump());
+//				System.out.println("-------------------------");
+				Size imageSize = new Size(frame.width(), frame.height());
+				List<Mat> objectPoints = new ArrayList<Mat>();
+				List<Mat> imagePoints = new ArrayList<Mat>();
+				imagePoints.add(corners);
+				List<Point3> points = new ArrayList<Point3>();
+				for (int x = 7; x >= 0; x--) {
+					for (int y = 6; y >= 0; y--) {
+						points.add(new Point3(x, y, 0));
+					}
+				}
+				MatOfPoint3f coords = new MatOfPoint3f();
+				coords.fromList(points);
+				objectPoints.add(coords);
+				Mat distCoeffs = new Mat(), cameraMatrix = new Mat();
+				List<Mat> rvecs = new ArrayList<Mat>(), tvecs = new ArrayList<Mat>();
+				Calib3d.calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs, tvecs);
+				Mat rvec = new Mat(), tvec = new Mat();
+				MatOfDouble distCoeff = new MatOfDouble(distCoeffs);
+				Calib3d.solvePnP(coords, corners, cameraMatrix, distCoeff, rvec, tvec);
+				System.out.println("Camera Matrix:\n" + cameraMatrix.dump());
+				System.out.println("Distortion Coefficients:\n" + distCoeffs.dump());
+				System.out.println("Rotation Vector:\n" + rvec.dump());
+				System.out.println("Translation Vector:\n" + tvec.dump());
 			}
 
 			// processing finished
