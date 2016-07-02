@@ -15,7 +15,7 @@ class DetectCornersDemo {
     String filepath = input.nextLine();
     Mat image = Highgui.imread(filepath);
 
-    Size patternSize = new Size(7, 7);
+    Size patternSize = new Size(8, 7);
     
     MatOfPoint2f corners = new MatOfPoint2f();
 	boolean cornersFound = Calib3d.findChessboardCorners(image, patternSize, corners);

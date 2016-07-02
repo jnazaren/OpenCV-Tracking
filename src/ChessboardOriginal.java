@@ -89,7 +89,7 @@ class NewVideoCamera extends JPanel {
 		super.paintComponent(g);
 		Mat frame = new Mat();
 		camera.read(frame);
-		Size patternSize = new Size(7, 8);
+		Size patternSize = new Size(8, 7);
 
 		if (!frame.empty()) {
 
@@ -106,8 +106,8 @@ class NewVideoCamera extends JPanel {
 				List<Mat> imagePoints = new ArrayList<Mat>();
 				imagePoints.add(corners);
 				List<Point3> points = new ArrayList<Point3>();
-				for (int x = 7; x >= 0; x--) {
-					for (int y = 6; y >= 0; y--) {
+				for (int y = 0; y <= 6; y++) {
+					for (int x = 0; x <= 7; x++) {
 						points.add(new Point3(x, y, 0));
 					}
 				}
