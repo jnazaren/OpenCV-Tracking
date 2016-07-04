@@ -119,18 +119,28 @@ class NewVideoCamera extends JPanel {
 				Calib3d.calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs, tvecs);
 				Mat rvec = new Mat(), tvec = new Mat();
 				MatOfDouble distCoeff = new MatOfDouble(distCoeffs);
-				Calib3d.solvePnP(coords, corners, cameraMatrix, distCoeff, rvec, tvec);
-				System.out.println("Camera Matrix:\n" + cameraMatrix.dump());
-				System.out.println("Distortion Coefficients:\n" + distCoeffs.dump());
-				System.out.println("Rotation Vector:\n" + rvec.dump());
-				System.out.println("Translation Vector:\n" + tvec.dump());
+				Calib3d.solvePnP(coords, corners, cameraMatrix, distCoeff, rvec, tvec, true, 1);
+//				System.out.println("Camera Matrix:\n" + cameraMatrix.dump());
+//				System.out.println("Distortion Coefficients:\n" + distCoeffs.dump());
+//				System.out.println("Rotation Vector:\n" + rvec.dump());
+//				System.out.println("Translation Vector:\n" + tvec.dump());
+				MatOfPoint2f projectedAxisPts = new MatOfPoint2f();
+				Calib3d.projectPoints((new MatOfPoint3f(new Point3(3,0,0), new Point3(0,3,0), new Point3(0,0,-3))), rvec, tvec, cameraMatrix, distCoeff, projectedAxisPts);
+				drawAxes(frame, corners, projectedAxisPts);
 			}
 
 			// processing finished
-
+			
 			BufferedImage image = Mat2BufferedImage(frame);
 			g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
 
 		}
+	}
+	
+	public void drawAxes (Mat img, Mat corners, MatOfPoint2f projectedPoints) {
+		Point corner = new Point(corners.get(0, 0));
+		Core.line(img, corner, new Point(projectedPoints.get(0, 0)), new Scalar(0, 0, 255), 5);  // x-axis
+		Core.line(img, corner, new Point(projectedPoints.get(1, 0)), new Scalar(0, 255, 0), 5);  // y-axis
+		Core.line(img, corner, new Point(projectedPoints.get(2, 0)), new Scalar(255, 0, 0), 5);  // z-axis
 	}
 }
