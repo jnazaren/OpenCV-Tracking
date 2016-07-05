@@ -101,32 +101,26 @@ class NewVideoCamera extends JPanel {
 			if (cornersFound) {
 //				System.out.println(corners.dump());
 //				System.out.println("-------------------------");
-				Size imageSize = new Size(frame.width(), frame.height());
-				List<Mat> objectPoints = new ArrayList<Mat>();
-				List<Mat> imagePoints = new ArrayList<Mat>();
-				imagePoints.add(corners);
 				List<Point3> points = new ArrayList<Point3>();
 				for (int y = 0; y <= 6; y++) {
 					for (int x = 0; x <= 7; x++) {
 						points.add(new Point3(x, y, 0));
 					}
 				}
-				MatOfPoint3f coords = new MatOfPoint3f();
-				coords.fromList(points);
-				objectPoints.add(coords);
-				Mat distCoeffs = new Mat(), cameraMatrix = new Mat();
-				List<Mat> rvecs = new ArrayList<Mat>(), tvecs = new ArrayList<Mat>();
-				Calib3d.calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs, tvecs);
+				MatOfPoint3f imageCoords = new MatOfPoint3f();
+				imageCoords.fromList(points);
+				Mat cameraMatrix = new Mat(3, 3, 6);
+				cameraMatrix.put(0, 0, 1206.465, 0, 635.515);
+				cameraMatrix.put(1, 0, 0, 1130.215, 348.959);
+				cameraMatrix.put(2, 0, 0, 0, 1);
 				Mat rvec = new Mat(), tvec = new Mat();
-				MatOfDouble distCoeff = new MatOfDouble(distCoeffs);
-//				Calib3d.solvePnP(coords, corners, cameraMatrix, distCoeff, rvec, tvec);
-				Calib3d.solvePnPRansac(coords, corners, cameraMatrix, distCoeff, rvec, tvec);
-//				System.out.println("Camera Matrix:\n" + cameraMatrix.dump());
-//				System.out.println("Distortion Coefficients:\n" + distCoeffs.dump());
-//				System.out.println("Rotation Vector:\n" + rvec.dump());
-//				System.out.println("Translation Vector:\n" + tvec.dump());
+				MatOfDouble distCoeffs = new MatOfDouble(-0.920, 0.994, 0.133, 0.252, -7.689);
+//				Calib3d.solvePnP(imageCoords, corners, cameraMatrix, distCoeffs, rvec, tvec);
+				Calib3d.solvePnPRansac(imageCoords, corners, cameraMatrix, distCoeffs, rvec, tvec);
+				System.out.println("Rotation Vector:\n" + rvec.dump());
+				System.out.println("Translation Vector:\n" + tvec.dump());
 				MatOfPoint2f projectedAxisPts = new MatOfPoint2f();
-				Calib3d.projectPoints((new MatOfPoint3f(new Point3(3,0,0), new Point3(0,3,0), new Point3(0,0,-3))), rvec, tvec, cameraMatrix, distCoeff, projectedAxisPts);
+				Calib3d.projectPoints((new MatOfPoint3f(new Point3(3,0,0), new Point3(0,3,0), new Point3(0,0,-3))), rvec, tvec, cameraMatrix, distCoeffs, projectedAxisPts);
 				drawAxes(frame, corners, projectedAxisPts);
 			}
 
