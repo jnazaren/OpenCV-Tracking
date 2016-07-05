@@ -119,7 +119,8 @@ class NewVideoCamera extends JPanel {
 				Calib3d.calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs, tvecs);
 				Mat rvec = new Mat(), tvec = new Mat();
 				MatOfDouble distCoeff = new MatOfDouble(distCoeffs);
-				Calib3d.solvePnP(coords, corners, cameraMatrix, distCoeff, rvec, tvec, true, 1);
+//				Calib3d.solvePnP(coords, corners, cameraMatrix, distCoeff, rvec, tvec);
+				Calib3d.solvePnPRansac(coords, corners, cameraMatrix, distCoeff, rvec, tvec);
 //				System.out.println("Camera Matrix:\n" + cameraMatrix.dump());
 //				System.out.println("Distortion Coefficients:\n" + distCoeffs.dump());
 //				System.out.println("Rotation Vector:\n" + rvec.dump());
