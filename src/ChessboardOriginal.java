@@ -22,10 +22,7 @@ public class ChessboardOriginal {
 		System.out.println("Loading library...");
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-		VideoCapture camera = new VideoCapture(0);
-		camera.open(0);
-		camera.set(3, 1280);
-		camera.set(4, 720);
+		VideoCapture camera = new VideoCapture("http://root:underclocked@169.254.241.236/mjpg/video.mjpg");
 		if (!camera.isOpened()) {
 			System.out.println("Camera Error");
 		} else {
@@ -37,8 +34,8 @@ public class ChessboardOriginal {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(cam);
-		frame.setSize(1300, 770);
-		frame.setTitle("Chessboard");
+		frame.setSize(820, 650);
+		frame.setTitle("Chessboard Detection");
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
 
@@ -110,11 +107,11 @@ class NewVideoCamera extends JPanel {
 				MatOfPoint3f imageCoords = new MatOfPoint3f();
 				imageCoords.fromList(points);
 				Mat cameraMatrix = new Mat(3, 3, 6);
-				cameraMatrix.put(0, 0, 1206.465, 0, 635.515);
-				cameraMatrix.put(1, 0, 0, 1130.215, 348.959);
+				cameraMatrix.put(0, 0, 1411.907, 0, 439.825);
+				cameraMatrix.put(1, 0, 0, 1433.081, 288.428);
 				cameraMatrix.put(2, 0, 0, 0, 1);
 				Mat rvec = new Mat(), tvec = new Mat();
-				MatOfDouble distCoeffs = new MatOfDouble(-0.920, 0.994, 0.133, 0.252, -7.689);
+				MatOfDouble distCoeffs = new MatOfDouble(-1.903, 14.932, 0.036, -0.037, -83.402);
 //				Calib3d.solvePnP(imageCoords, corners, cameraMatrix, distCoeffs, rvec, tvec);
 				Calib3d.solvePnPRansac(imageCoords, corners, cameraMatrix, distCoeffs, rvec, tvec);
 				System.out.println("Rotation Vector:\n" + rvec.dump());

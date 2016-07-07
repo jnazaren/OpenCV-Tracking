@@ -45,7 +45,7 @@ public class Chessboard {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(cam);
 		frame.setSize(1300, 770);
-		frame.setTitle("Chessboard");
+		frame.setTitle("Chessboard Detection");
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
 
