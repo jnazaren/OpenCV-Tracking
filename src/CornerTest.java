@@ -1,6 +1,10 @@
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JSlider;
+
 import org.opencv.core.Core;
 import org.opencv.highgui.VideoCapture;
 
@@ -14,9 +18,9 @@ public class CornerTest {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
 		VideoCapture camera = new VideoCapture(0);
-		camera.open(0);
 		camera.set(3, 1280);
 		camera.set(4, 720);
+//		VideoCapture camera = new VideoCapture("http://root:underclocked@169.254.241.236/mjpg/video.mjpg");
 		if (!camera.isOpened()) {
 			System.out.println("Camera Error");
 		} else {
@@ -27,7 +31,7 @@ public class CornerTest {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(cam);
-		frame.setSize(1295, 850);
+		frame.setSize(1000, 1000);
 		frame.setVisible(true);
 		frame.setTitle("Corner Detection");
 		frame.addWindowListener(new WindowAdapter() {

@@ -22,7 +22,8 @@ public class ChessboardOriginal {
 		System.out.println("Loading library...");
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-		VideoCapture camera = new VideoCapture("http://root:underclocked@169.254.241.236/mjpg/video.mjpg");
+//		VideoCapture camera = new VideoCapture("http://root:underclocked@169.254.241.236/mjpg/video.mjpg");
+		VideoCapture camera = new VideoCapture(0);
 		if (!camera.isOpened()) {
 			System.out.println("Camera Error");
 		} else {
